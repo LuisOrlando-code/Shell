@@ -8,7 +8,7 @@ def main():
 
     # Wait for user input
     command = input()
-    print(f"{command}: command not found") + 1
+    print(f"{command}: command not found")
         # Wait for user input
         command = input()
         print(f"{command}: command not found")
