@@ -4,7 +4,7 @@ import sys
 def main():
     sys.stdout.write("$ ")
     while True:
-        sys.stdout.wrie("$ ")
+        sys.stdout.write("$ ")
 
     # Wait for user input
     command = input()
