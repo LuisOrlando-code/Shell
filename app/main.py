@@ -10,10 +10,6 @@ def main():
             command = input()
         except EOFError:
             break
-        if command.startswith("type "):
-            main()
-        else:
-            pass
         if command == "exit":
             break
         if command.startswith("echo "):
@@ -26,6 +22,8 @@ def main():
                 print(f"{cmd} is {path}")
             else:
                 print(f"{cmd}: not found")
+        elif execute_command(cmd):
+            subprocess.run(parts)
         else:
             print(f"{command}: not found")
 
