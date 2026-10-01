@@ -1,5 +1,5 @@
 import sys
-import shutil
+import shutil, subprocess, os
 
 def execute_comand(c):
     for d in os.get_exec_path():
