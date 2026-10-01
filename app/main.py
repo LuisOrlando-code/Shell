@@ -16,26 +16,28 @@ def commandInput():
 
 
 def commandOptions(command):
-    builtins = ["exit", "echo", "type"]
-    match command.split():
-        case ["exit"]:
-            sys.exit()
-        case ["echo", *words]:
-            print(" ".join(words))
-            commandInput()
-        case ["type", userinput]:
-            if userinput in builtins:
-                print(f"{userinput} is a shell builtin")
+    while True:
+        sys.stdout.write("$ ")
+        sys.stdout.flush()
+        try:
+            command = input()
+        except EOFError:
+            break
+        if command == "exit":
+            break
+        if command.startswith("echo "):
+            print(f"{command[5:]}")
+
+        elif command.startswith("type "):
+            cmd = command[5:]
+            if cmd in ["echo", "exit", "type"]:
+                print(f"{cmd} is a shell builtin")
+            elif path := shutil.which(cmd):
+                print(f"{cmd} is {path}")
             else:
-                print(f"{userinput}: not found")
-            commandInput()
-        case [action, *_]:
-            print(f"{command}: command not found")
-            commandInput()
-
-
-        case []:
-            commandInput()
+                print(f"{cmd}: not found")
+        else:
+            print(f"{command}: not found")
 
 
 
