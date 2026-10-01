@@ -1,50 +1,55 @@
+import subprocess
 import sys
-import shutil, subprocess, os
-
-
-def builtin_commands(c):
-    return c in {"echo", "exit", "type"}
-
-
-def execute_command(c):
-    for d in os.get_exec_path():
-        if os.access(fullpath := os.path.join(d, c), os.X_OK):
-            return fullpath
-
+import os
 
 def main():
+    # TODO: Uncomment the code below to pass the first stage
+    BUILTINS = ["type", "echo", "exit", "pwd"]
     while True:
         sys.stdout.write("$ ")
-        sys.stdout.flush()
-        command = input().strip()
-        if not command:
+        line = input()
+        if not line:
             continue
 
-        parts = command.split()
-        cmd = parts[0]
-        args = parts[1:] if len(parts) > 1 else ""
-        
-            
+        tokens = line.split()
+        command = tokens[0]
+        args = tokens[1:]
+        if command == "echo":
+            print(*args)
+        elif command == "exit":
+            sys.exit(0)
+        elif command == "pwd":
+            print(os.getcwd())
 
-        if builtin_commands(cmd):
-            if cmd == "exit":
-                break
-            elif cmd == "echo":
-                print(f"{' '.join(args)}")
-            elif cmd == "type":
-                if builtin_commands(args[0]):
-                    print(f"{args[0]} is a shell builtin")
-                elif full_path := execute_command(args[0]):
-                    print(f"{args[0]} is {full_path}")
+
+        elif command == "type":
+            if not args:
+                continue
+            target = args[0]
+            if target in BUILTINS:
+                print(f"{target} is a shell builtin")
+            else:
+                path = dir_path(target)
+                if path:
+                    print(f"{target} is {path}")
                 else:
-                    print(f"{args[0]}: not found")
-            elif cmd == "pwd":
-                print(os.getcwd())
-                
-        elif execute_command(cmd):
-            subprocess.run(parts)
+                    print(f"{target}: not found")
         else:
-            print(f"{cmd}: command not found")
+            target_prg_path = dir_path(command)
+            if not target_prg_path:
+                print(f"{command}: command not found")
+            else:
+                subprocess.run(args=tokens, executable=target_prg_path)
+
+
+    
+def dir_path(cmd):
+    path = os.environ.get("PATH", "")
+    for dir in path.split(":"):
+        path_to_cmd = os.path.join(dir, cmd)
+        if os.path.isfile(path_to_cmd) and os.access(path_to_cmd, os.X_OK):
+            return path_to_cmd
+    return None
 
 
 if __name__ == "__main__":
