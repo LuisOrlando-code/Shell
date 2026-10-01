@@ -10,7 +10,7 @@ def main():
             command = input()
         except EOFError:
             break
-        if command == "type":
+        if command.startswith("type "):
             main()
         else:
             pass
