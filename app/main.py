@@ -1,6 +1,11 @@
 import sys
 import shutil
 
+def execute_comand(c):
+    for d in os.get_exec_path():
+        if os.access(fullpath := os.path.join(d, c), os.X_OK):
+            return fullpath
+
 
 def main():
     while True:
