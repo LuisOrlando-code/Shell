@@ -10,6 +10,10 @@ def main():
             command = input()
         except EOFError:
             break
+        if command == "type":
+            main()
+        else:
+            pass
         if command == "exit":
             break
         if command.startswith("echo "):
