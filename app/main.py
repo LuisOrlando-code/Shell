@@ -24,10 +24,6 @@ def main():
         cmd = parts[0]
         args = parts[1:] if len(parts) > 1 else ""
         
-        if pwd_print(pwd):
-            if cmd == "pwd":
-                print(f{''}cmd)
-        
             
 
         if builtin_commands(cmd):
@@ -42,6 +38,9 @@ def main():
                     print(f"{args[0]} is {full_path}")
                 else:
                     print(f"{args[0]}: not found")
+            elif cmd == "pwd":
+                print(os.getcwd())
+                
         elif execute_command(cmd):
             subprocess.run(parts)
         else:
