@@ -1,7 +1,12 @@
 import sys
 import shutil, subprocess, os
 
-def execute_comand(c):
+
+def builtin_commands(c):
+    return c in {"echo", "exit", "type"}
+
+
+def execute_command(c):
     for d in os.get_exec_path():
         if os.access(fullpath := os.path.join(d, c), os.X_OK):
             return fullpath
@@ -11,7 +16,7 @@ def main():
     while True:
         sys.stdout.write("$ ")
         sys.stdout.flush()
-        command = input(),strip()
+        command = input().strip()
         if not command:
             continue
 
@@ -27,11 +32,11 @@ def main():
             elif cmd == "type":
                 if builtin_commands(args[0]):
                     print(f"{args[0]} is a shell builtin")
-                elif full_path := execute_comand(args[0]):
+                elif full_path := execute_command(args[0]):
                     print(f"{args[0]} is {full_path}")
                 else:
                     print(f"{args[0]}: not found")
-        elif execute_comand(cmd):
+        elif execute_command(cmd):
             subprocess.run(parts)
         else:
             print(f"{cmd}: command not found")
