@@ -23,6 +23,12 @@ def main():
         parts = command.split()
         cmd = parts[0]
         args = parts[1:] if len(parts) > 1 else ""
+        
+        if pwd_print(pwd):
+            if cmd == "pwd":
+                print(f{''}cmd)
+        
+            
 
         if builtin_commands(cmd):
             if cmd == "exit":
