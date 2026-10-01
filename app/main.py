@@ -1,21 +1,8 @@
 import sys
-import os
-from itertools import count
-
-import builtins
+import shutil
 
 
 def main():
-    commandInput()
-
-
-def commandInput():
-        sys.stdout.write("$ ")
-        command = input()
-        commandOptions(command)
-
-
-def commandOptions(command):
     while True:
         sys.stdout.write("$ ")
         sys.stdout.flush()
@@ -27,7 +14,6 @@ def commandOptions(command):
             break
         if command.startswith("echo "):
             print(f"{command[5:]}")
-
         elif command.startswith("type "):
             cmd = command[5:]
             if cmd in ["echo", "exit", "type"]:
@@ -38,8 +24,6 @@ def commandOptions(command):
                 print(f"{cmd}: not found")
         else:
             print(f"{command}: not found")
-
-
 
 
 if __name__ == "__main__":
